@@ -245,12 +245,12 @@ export default function ShopDetail() {
                                 <div key={item.id} className="bg-white p-5 rounded-xl shadow-sm border border-gray-200 transition-all hover:shadow-md">
 
                                     {/* Row 1: Info & Actions */}
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="flex items-center gap-4 overflow-hidden">
+                                    <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-4 gap-4">
+                                        <div className="flex items-center gap-4 overflow-hidden w-full sm:w-auto">
                                             <div className="bg-blue-50 p-3 rounded-lg flex-shrink-0">
                                                 <FileText className="text-blue-500" size={24} />
                                             </div>
-                                            <div className="min-w-0">
+                                            <div className="min-w-0 flex-1">
                                                 <h3 className="font-semibold text-gray-800 truncate" title={item.file.name}>
                                                     {item.file.name}
                                                 </h3>
@@ -260,7 +260,7 @@ export default function ShopDetail() {
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-6">
+                                        <div className="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto">
                                             {/* Copies Counter */}
                                             <div className="flex flex-col items-center">
                                                 <span className="text-[10px] uppercase font-bold text-gray-400 mb-1">Copies</span>
@@ -295,7 +295,7 @@ export default function ShopDetail() {
                                     <hr className="border-gray-100 mb-4" />
 
                                     {/* Row 2: Toggles */}
-                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                                         <ToggleOption
                                             label="Color Mode"
                                             // icon={Monitor}

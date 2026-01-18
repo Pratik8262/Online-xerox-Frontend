@@ -2,16 +2,19 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from './Button';
-import { LogOut, User, Menu, Printer } from 'lucide-react';
+import { LogOut, User, Menu, Printer, X } from 'lucide-react';
+import { useState } from 'react';
 
 export const Layout = ({ children }) => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
         navigate('/login');
+        setIsMobileMenuOpen(false);
     };
 
     const NavLink = ({ to, children }) => {
@@ -113,10 +116,11 @@ export const Layout = ({ children }) => {
                             </Link>
                         </div>
 
-                        <div className="flex items-center space-x-2 sm:space-x-6">
+                        {/* Desktop Menu */}
+                        <div className="hidden md:flex items-center space-x-2 sm:space-x-6">
                             {user ? (
                                 <>
-                                    <div className="hidden md:flex items-center space-x-2">
+                                    <div className="flex items-center space-x-2">
                                         {user.role === 'customer' && (
                                             <>
                                                 <NavLink to="/shops">Find Shops</NavLink>
@@ -125,7 +129,7 @@ export const Layout = ({ children }) => {
                                         )}
                                     </div>
 
-                                    <div className="h-6 w-px bg-gray-200 hidden md:block"></div>
+                                    <div className="h-6 w-px bg-gray-200 block"></div>
 
                                     {/* User Dropdown */}
                                     <div className="relative group">
@@ -133,7 +137,7 @@ export const Layout = ({ children }) => {
                                             <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200">
                                                 {user.name.charAt(0).toUpperCase()}
                                             </div>
-                                            <span className="hidden sm:block">{user.name.split(' ')[0]}</span>
+                                            <span className="block">{user.name.split(' ')[0]}</span>
                                         </button>
 
                                         {/* Dropdown Content */}
@@ -163,8 +167,91 @@ export const Layout = ({ children }) => {
                                 </div>
                             )}
                         </div>
+
+                        {/* Mobile Menu Button */}
+                        <div className="flex items-center md:hidden">
+                            <button
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-colors"
+                            >
+                                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                {/* Mobile Menu Drawer */}
+                {isMobileMenuOpen && (
+                    <div className="md:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full z-50">
+                        <div className="px-4 pt-2 pb-4 space-y-1">
+                            {user ? (
+                                <>
+                                    <div className="flex items-center gap-3 px-3 py-3 mb-2 border-b border-gray-50">
+                                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200">
+                                            {user.name.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-gray-900">{user.name}</p>
+                                            <p className="text-xs text-gray-500 capitalize">{user.role}</p>
+                                        </div>
+                                    </div>
+
+                                    {user.role === 'customer' && (
+                                        <>
+                                            <Link
+                                                to="/shops"
+                                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
+                                                Find Shops
+                                            </Link>
+                                            <Link
+                                                to="/orders"
+                                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
+                                                My Orders
+                                            </Link>
+                                            <Link
+                                                to="/profile"
+                                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
+                                                Profile
+                                            </Link>
+                                        </>
+                                    )}
+
+                                    <div className="border-t border-gray-100 my-2 pt-2">
+                                        <button
+                                            onClick={handleLogout}
+                                            className="w-full flex items-center gap-2 px-3 py-2 text-base font-medium text-red-600 hover:bg-red-50 rounded-md"
+                                        >
+                                            <LogOut size={18} /> Logout
+                                        </button>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="space-y-3 pt-2">
+                                    <Link
+                                        to="/login"
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Login
+                                    </Link>
+                                    <Link
+                                        to="/register"
+                                        className="block px-3"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        <Button className="w-full justify-center">Get Started</Button>
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
             </nav>
 
             <main className="flex-grow w-full mx-auto">

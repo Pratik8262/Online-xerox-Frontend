@@ -10,7 +10,7 @@ export default function ShopOrders() {
 
     const fetchOrders = async () => {
         try {
-            const res = await api.get('/orders/shop');
+            const res = await api.get('/api/orders/shop');
             setOrders(res.data.data);
         } catch (err) {
             console.error(err);
@@ -25,7 +25,7 @@ export default function ShopOrders() {
 
     const handleStatusUpdate = async (orderId, newStatus) => {
         try {
-            await api.put(`/orders/${orderId}/status`, { status: newStatus });
+            await api.put(`/api/orders/${orderId}/status`, { status: newStatus });
             fetchOrders();
         } catch (err) {
             alert('Failed to update status');
@@ -35,7 +35,7 @@ export default function ShopOrders() {
     const handleDownload = async (fileKey, fileName) => {
         try {
             // 1. Get Download Token
-            const tokenRes = await api.post('/files/token/download', { fileKey });
+            const tokenRes = await api.post('/api/files/token/download', { fileKey });
             const { token, downloadUrl } = tokenRes.data.data;
 
             // 2. Fetch Blob

@@ -21,8 +21,8 @@ export default function ShopDashboard() {
         const fetchData = async () => {
             try {
                 const [statsRes, shopRes] = await Promise.all([
-                    api.get('/payments/shop/stats'),
-                    api.get('/shops/my/shop').catch(() => ({ data: { data: null } }))
+                    api.get('/api/payments/shop/stats'),
+                    api.get('/api/shops/my/shop').catch(() => ({ data: { data: null } }))
                 ]);
                 setStats(statsRes.data.data);
                 setMyShop(shopRes.data.data);

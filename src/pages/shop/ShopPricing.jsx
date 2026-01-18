@@ -14,7 +14,7 @@ export default function ShopPricing() {
 
     const fetchPricing = async () => {
         try {
-            const res = await api.get('/pricing/my/pricing');
+            const res = await api.get('/api/pricing/my/pricing');
             setPricing(res.data.data);
         } catch (err) {
             console.error(err);
@@ -30,7 +30,7 @@ export default function ShopPricing() {
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/pricing', formData);
+            await api.post('/api/pricing', formData);
             fetchPricing(); // Refresh
             setFormData({ ...formData, price_per_page: '' });
         } catch (err) {
@@ -40,7 +40,7 @@ export default function ShopPricing() {
 
     const handleDelete = async (id) => {
         try {
-            await api.delete(`/pricing/${id}`);
+            await api.delete(`/api/pricing/${id}`);
             fetchPricing();
         } catch (err) {
             alert("Failed to delete");

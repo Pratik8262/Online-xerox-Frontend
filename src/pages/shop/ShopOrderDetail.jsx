@@ -11,7 +11,7 @@ export default function ShopOrderDetail() {
     useEffect(() => {
         const fetchOrder = async () => {
             try {
-                const res = await api.get(`/orders/${orderId}`);
+                const res = await api.get(`/api/orders/${orderId}`);
                 setOrder(res.data.data);
             } catch (err) {
                 console.error(err);
@@ -24,7 +24,7 @@ export default function ShopOrderDetail() {
 
     const handleDownload = async (file) => {
         try {
-            const tokenRes = await api.post('/files/token/download', { fileKey: file.file_key });
+            const tokenRes = await api.post('/api/files/token/download', { fileKey: file.file_key });
             const { token, downloadUrl } = tokenRes.data.data;
 
             const response = await fetch(downloadUrl, {

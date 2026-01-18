@@ -13,7 +13,7 @@ export default function ShopAnalytics() {
     useEffect(() => {
         const fetchAnalytics = async () => {
             try {
-                const res = await api.get('/orders/shop');
+                const res = await api.get('/api/orders/shop');
                 const orders = res.data.data;
 
                 let total = 0;

@@ -28,6 +28,10 @@ export const AuthProvider = ({ children }) => {
             setUser(user);
             return { success: true };
         } catch (error) {
+            console.log("LOGIN ERROR FULL:", error);
+            console.log("LOGIN ERROR RESPONSE:", error?.response);
+            console.log("LOGIN ERROR DATA:", error?.response?.data);
+            console.log("LOGIN STATUS:", error?.response?.status);
             return {
                 success: false,
                 message: error.response?.data?.message || 'Login failed'
@@ -44,6 +48,10 @@ export const AuthProvider = ({ children }) => {
             setUser(user);
             return { success: true };
         } catch (error) {
+            console.log("LOGIN ERROR FULL:", error);
+            console.log("LOGIN ERROR RESPONSE:", error?.response);
+            console.log("LOGIN ERROR DATA:", error?.response?.data);
+            console.log("LOGIN STATUS:", error?.response?.status);
             return {
                 success: false,
                 message: error.response?.data?.message || 'Registration failed'

@@ -1,6 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import api from '../services/api';
-import { useNavigate } from 'react-router-dom';
+import React, { createContext, useState, useContext, useEffect } from "react";
+import api from "../services/api";
 
 const AuthContext = createContext();
 
@@ -11,8 +10,9 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        const token = localStorage.getItem('token');
+        const storedUser = localStorage.getItem("user");
+        const token = localStorage.getItem("token");
+
         if (storedUser && token) {
             setUser(JSON.parse(storedUser));
         }
@@ -21,47 +21,53 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (identifier, password) => {
         try {
-            const response = await api.post('/auth/login', { identifier, password });
-            const { user, token } = response.data.data;
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
+            const response = await api.post("/api/auth/login", { identifier, password });
+
+            const payload = response.data?.data || response.data;
+            const { user, token } = payload;
+
+            localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify(user));
+
             setUser(user);
+
             return { success: true };
         } catch (error) {
-            console.log("LOGIN ERROR FULL:", error);
-            console.log("LOGIN ERROR RESPONSE:", error?.response);
-            console.log("LOGIN ERROR DATA:", error?.response?.data);
-            console.log("LOGIN STATUS:", error?.response?.status);
+            console.log("LOGIN ERROR:", error?.response?.status, error?.response?.data);
+
             return {
                 success: false,
-                message: error.response?.data?.message || 'Login failed'
+                message: error?.response?.data?.message || "Login failed",
             };
         }
     };
 
     const register = async (data) => {
         try {
-            const response = await api.post('/auth/register', data);
-            const { user, token } = response.data.data;
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
+            const response = await api.post("/api/auth/register", data);
+
+            const payload = response.data?.data || response.data;
+            const { user, token } = payload;
+
+            localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify(user));
+
             setUser(user);
+
             return { success: true };
         } catch (error) {
-            console.log("LOGIN ERROR FULL:", error);
-            console.log("LOGIN ERROR RESPONSE:", error?.response);
-            console.log("LOGIN ERROR DATA:", error?.response?.data);
-            console.log("LOGIN STATUS:", error?.response?.status);
+            console.log("REGISTER ERROR:", error?.response?.status, error?.response?.data);
+
             return {
                 success: false,
-                message: error.response?.data?.message || 'Registration failed'
+                message: error?.response?.data?.message || "Registration failed",
             };
         }
     };
 
     const logout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setUser(null);
     };
 

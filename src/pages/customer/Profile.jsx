@@ -14,7 +14,7 @@ export default function Profile() {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const res = await api.get('/orders/my');
+                const res = await api.get('/api/orders/my');
                 const orders = res.data.data;
 
                 const totalSpent = orders.reduce((acc, order) => acc + parseFloat(order.total_amount), 0);

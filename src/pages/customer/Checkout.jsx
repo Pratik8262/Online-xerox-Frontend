@@ -15,7 +15,7 @@ export default function Checkout() {
     useEffect(() => {
         const fetchOrder = async () => {
             try {
-                const res = await api.get(`/orders/${orderId}`);
+                const res = await api.get(`/api/orders/${orderId}`);
                 setOrder(res.data.data);
             } catch (err) {
                 console.error(err);
@@ -28,7 +28,7 @@ export default function Checkout() {
 
     const handlePayment = async () => {
         try {
-            const payRes = await api.post('/payments', { orderId });
+            const payRes = await api.post('/api/payments', { orderId });
             const { amount, rzp_order_id, rzp_key } = payRes.data.data;
 
             const options = {
@@ -40,7 +40,7 @@ export default function Checkout() {
                 order_id: rzp_order_id,
                 handler: async function (response) {
                     try {
-                        await api.post('/payments/verify', {
+                        await api.post('/api/payments/verify', {
                             razorpay_order_id: response.razorpay_order_id,
                             razorpay_payment_id: response.razorpay_payment_id,
                             razorpay_signature: response.razorpay_signature

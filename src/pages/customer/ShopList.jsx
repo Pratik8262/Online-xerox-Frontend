@@ -11,7 +11,7 @@ export default function ShopList() {
     useEffect(() => {
         const fetchShops = async () => {
             try {
-                const res = await api.get('/shops/all');
+                const res = await api.get('/api/shops/all');
                 if (res.data.success) {
                     setShops(res.data.data);
                 }

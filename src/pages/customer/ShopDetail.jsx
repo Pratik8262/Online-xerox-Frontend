@@ -16,8 +16,8 @@ const ToggleOption = ({ label, options, value, onChange, icon: Icon }) => (
                     key={opt.value}
                     onClick={() => onChange(opt.value)}
                     className={`flex-1 px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${value === opt.value
-                            ? 'bg-white text-blue-600 shadow-sm border border-gray-200'
-                            : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-white text-blue-600 shadow-sm border border-gray-200'
+                        : 'text-gray-500 hover:text-gray-700'
                         }`}
                 >
                     {opt.label}
@@ -45,8 +45,8 @@ export default function ShopDetail() {
         const fetchData = async () => {
             try {
                 const [shopRes, priceRes] = await Promise.all([
-                    api.get(`/shops/${shopId}`),
-                    api.get(`/pricing/shop/${shopId}`)
+                    api.get(`/api/shops/${shopId}`),
+                    api.get(`/api/pricing/shop/${shopId}`)
                 ]);
                 setShop(shopRes.data.data);
                 setPricing(priceRes.data.data);
@@ -141,7 +141,7 @@ export default function ShopDetail() {
 
         try {
             // 1. Get Upload Token (Reuse for all files)
-            const tokenRes = await api.post('/files/token/upload');
+            const tokenRes = await api.post('/api/files/token/upload');
             const { token, uploadUrl } = tokenRes.data.data;
 
             // 2. Upload All Files in Parallel
@@ -190,7 +190,7 @@ export default function ShopDetail() {
                 file_keys: uploadedFiles // Contains per-file details
             };
 
-            const orderRes = await api.post('/orders', orderPayload);
+            const orderRes = await api.post('/api/orders', orderPayload);
             const orderId = orderRes.data.data.id;
 
             // 4. Redirect

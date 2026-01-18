@@ -43,7 +43,7 @@ export default function MyOrders() {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const res = await api.get('/orders/my');
+                const res = await api.get('/api/orders/my');
                 setOrders(res.data.data);
             } catch (err) {
                 console.error(err);
